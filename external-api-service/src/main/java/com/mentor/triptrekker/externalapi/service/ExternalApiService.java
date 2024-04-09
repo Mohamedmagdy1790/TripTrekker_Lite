@@ -65,6 +65,8 @@ public class ExternalApiService {
                             .queryParam("maxPrice", request.getMaxPrice())
                             .queryParam("max", request.getMax())
                             .build())
+
+
                     .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
                     .retrieve()
                     .bodyToMono(FlightOfferResponse.class)
