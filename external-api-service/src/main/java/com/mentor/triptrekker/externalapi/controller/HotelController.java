@@ -18,6 +18,8 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class HotelController {
 
-    private final ExternalApiService externalApiService;
+   // removed
+
+
 
 }
