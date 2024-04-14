@@ -11,7 +11,9 @@ public class WebClientConfig {
     @Bean
     public WebClient webClient() {
         return WebClient.builder()
-                .baseUrl("https://test.api.amadeus.com/v2/")
+                .baseUrl("https://test.api.amadeus.com/")
                 .build();
     }
+
+
 }

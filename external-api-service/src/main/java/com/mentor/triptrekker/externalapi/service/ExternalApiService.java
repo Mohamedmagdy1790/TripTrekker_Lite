@@ -2,11 +2,15 @@ package com.mentor.triptrekker.externalapi.service;
 
 
 import com.mentor.triptrekker.externalapi.exception.FlightSearchException;
+import com.mentor.triptrekker.externalapi.exception.HotelSearchException;
 import com.mentor.triptrekker.externalapi.request.FlightRequest;
+import com.mentor.triptrekker.externalapi.request.HotelRequest;
 import com.mentor.triptrekker.externalapi.response.AccessTokenResponse;
 import com.mentor.triptrekker.externalapi.response.FlightOfferResponse;
+import com.mentor.triptrekker.externalapi.response.HotelOfferResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -22,6 +26,8 @@ import reactor.core.publisher.Mono;
 public class ExternalApiService {
 
     private final WebClient webClient;
+
+
     private String accessToken;
     // Method to fetch access token from the authentication endpoint
     private Mono<String> fetchAccessToken() {
@@ -51,7 +57,7 @@ public class ExternalApiService {
     public Mono<FlightOfferResponse> searchFlights(FlightRequest request) {
         return getAccessToken().flatMap(token -> {
             return webClient.get()
-                    .uri(uriBuilder -> uriBuilder.path("shopping/flight-offers")
+                    .uri(uriBuilder -> uriBuilder.path("v2/shopping/flight-offers")
                             .queryParam("originLocationCode", request.getOriginLocationCode())
                             .queryParam("destinationLocationCode", request.getDestinationLocationCode())
                             .queryParam("departureDate", request.getDepartureDate())
@@ -71,10 +77,30 @@ public class ExternalApiService {
                     .retrieve()
                     .bodyToMono(FlightOfferResponse.class)
                     .onErrorResume(e -> {
-//                        log.error("Error fetching flight data: {} \n {}", e.getMessage(), e.getStackTrace());
+             //          log.error("Error fetching flight data  : {} \n {}", e.getMessage(), e.getStackTrace());
                         return Mono.error(new FlightSearchException("Error fetching flight data. : " + e.getMessage()));
                     });
         });
     }
 
+    public Mono<HotelOfferResponse> searchHotels(HotelRequest request) {
+        return getAccessToken().flatMap(token ->{
+            return webClient.get()
+                    .uri(uriBuilder -> uriBuilder.path("v3/shopping/hotel-offers")
+                            .queryParam("hotelIds", String.join(",", request.getHotelIds()))
+                            .queryParam("adults", request.getAdults())
+                            .queryParam("checkInDate", request.getCheckInDate())
+                            .queryParam("checkOutDate", request.getCheckOutDate())
+                            .queryParam("paymentPolicy", request.getPaymentType())
+                            .queryParam("boardType", request.getBoardType())
+                            .queryParam("roomQuantity" ,request.getRoomQuantity())
+                            .build())
+
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                    .retrieve()
+                    .bodyToMono(HotelOfferResponse.class).onErrorResume(e -> {
+                        return Mono.error(new HotelSearchException("Error fetching hotel data : "+ e.getMessage()));
+                    });
+        });
+    }
 }

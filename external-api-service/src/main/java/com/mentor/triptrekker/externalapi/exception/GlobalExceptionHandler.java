@@ -18,4 +18,12 @@ public class GlobalExceptionHandler {
 //        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching flight data: " + ex.getMessage());
 //    }
 
+
+//        @ExceptionHandler(HotelSearchException.class)
+//    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+//    public ResponseEntity<String> handleFlightSearchException(HotelSearchException ex) {
+//        log.error("Error fetching flight data: {}" , ex.getMessage());
+//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error fetching Hotel data: " + ex.getMessage());
+//    }
+
 }
