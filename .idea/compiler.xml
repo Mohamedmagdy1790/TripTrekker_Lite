@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="app" />
         <module name="external-api-service" />
+        <module name="validation-service" />
         <module name="auth-service" />
         <module name="flight-search-service" />
         <module name="payment-service" />
