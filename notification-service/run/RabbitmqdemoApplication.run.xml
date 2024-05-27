@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="RabbitmqdemoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+    <envs>
+      <env name="Email_PASSWORD" value="frrg jzeg qfrl hjor" />
+    </envs>
+    <module name="rabbitmqdemo" />
+    <option name="SPRING_BOOT_MAIN_CLASS" value="com.magdy.rabbitmqdemo.RabbitmqdemoApplication" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
